@@ -39,7 +39,7 @@ fey_monsters = {
 cr_mapping = {"1/4": 8, "1/2": 4, "1": 2, "2": 1}
 monster_crs = ("1/8", "1/4", "1/2", "1", "2")
 
-def rand_monster_from_range(max_cr: str, min_cr: str) -> tuple:
+def rand_monster_from_range(max_cr: str, min_cr: str, mm_only: bool) -> tuple:
     """ Retrieve a random monster in the specified inclusive CR range """ # max_cr: fractions.Fraction, min_cr: fractions.Fraction
     possible_monsters = []
     max_cr = Fraction(max_cr)
@@ -48,17 +48,18 @@ def rand_monster_from_range(max_cr: str, min_cr: str) -> tuple:
     for cr in fey_monsters:
         if Fraction(cr) >= min_cr and Fraction(cr) <= max_cr:
             for monster in fey_monsters[cr]:
-                possible_monsters.append(monster)
+                if not mm_only or monster[1] == "Monster Manual":
+                    possible_monsters.append(monster)
 
     return possible_monsters[random.randint(0,len(possible_monsters)-1)]
 
-def collect_from_range(max_cr: str, min_cr: str, max_monsters: int) -> dict:
+def collect_from_range(max_cr: str, min_cr: str, max_monsters: int, mm_only: bool) -> dict:
     """ Collects a number of random monsters from a specified CR range """
     monsters_conjured = {}
     total_monsters = 0
 
     while total_monsters < cr_mapping[max_cr] and len(monsters_conjured) < max_monsters:
-        next_monster = rand_monster_from_range(Fraction(max_cr), Fraction(min_cr))
+        next_monster = rand_monster_from_range(Fraction(max_cr), Fraction(min_cr), mm_only)
         if next_monster in monsters_conjured:
             monsters_conjured[next_monster] += 1
         else:
@@ -95,6 +96,8 @@ if __name__ == "__main__":
                     help="The minimum CR of conjured monsters (default MAXCR)")
     parser.add_argument('--max-monsters', type=int, default=8,
                     help='Set a maximum number of unique monster types')
+    parser.add_argument('--mm-only', action='store_true', default=False,
+                    help='Only use Monster Manual creatures')
     args = parser.parse_args()
 
     if not args.MINCR:
@@ -115,5 +118,5 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit(1)
     
-    monsters_conjured = collect_from_range(args.MAXCR, args.MINCR, args.max_monsters)
+    monsters_conjured = collect_from_range(args.MAXCR, args.MINCR, args.max_monsters, args.mm_only)
     display_monsters(monsters_conjured)
