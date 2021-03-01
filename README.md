@@ -1,7 +1,6 @@
 # conjure-woodland-beings
 
-A simple tool to help DMs randomly determine the creatures spawned by the Dungeons and Dragons 5th Edition spell Conjure Woodland Beings.
-[Spell Description](https://www.dndbeyond.com/spells/conjure-woodland-beings)
+A simple tool to help DMs randomly determine the creatures spawned by the Dungeons and Dragons 5th Edition spell [Conjure Woodland Beings](https://www.dndbeyond.com/spells/conjure-woodland-beings).
 
 ## Usage
 
