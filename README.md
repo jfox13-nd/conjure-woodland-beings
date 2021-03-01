@@ -6,6 +6,7 @@ A simple tool to help DMs randomly determine the creatures spawned by the Dungeo
 
 ```bash
 usage: conjure_woodland_beings.py [-h] [--max-monsters MAX_MONSTERS]
+                                  [--mm-only]
                                   MAXCR [MINCR]
 
 Randomly determine the creatured spawned by the Dungeons and Dragons 5E spell
@@ -19,6 +20,7 @@ optional arguments:
   -h, --help            show this help message and exit
   --max-monsters MAX_MONSTERS
                         Set a maximum number of unique monster types
+  --mm-only             Only use Monster Manual creatures
 ```
 
 ## Example Outputs
@@ -55,6 +57,12 @@ Darkling x 1
 
 ```bash
 jackfox$ ./conjure_woodland_beings.py 1/2 --max-monsters 1
+Satyr x 4
+    CR 1/2, Monster Manual, 267
+```
+
+```bash
+jackfox$ ./conjure_woodland_beings.py 1/2 --mm-only
 Satyr x 4
     CR 1/2, Monster Manual, 267
 ```
