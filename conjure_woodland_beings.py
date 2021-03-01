@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" conjure_woodland_beings.py: A simple tool to help DMs randomly determine the creatured spawned by the Dungeons and Dragons 5th Edition spell Conjure Woodland Beings """
+""" conjure_woodland_beings.py: A simple tool to help DMs randomly determine the creatures spawned by the Dungeons and Dragons 5th Edition spell Conjure Woodland Beings """
 
 __author__ = "Jack Fox"
 __email__ = "jfox13@nd.edu"
