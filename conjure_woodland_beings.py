@@ -98,6 +98,8 @@ if __name__ == "__main__":
                     help='Set a maximum number of unique monster types')
     parser.add_argument('--mm-only', action='store_true', default=False,
                     help='Only use Monster Manual creatures')
+    parser.add_argument('--no-pixie', action='store_true', default=False,
+                    help='Remove pixies from output')
     args = parser.parse_args()
 
     if not args.MINCR:
@@ -117,6 +119,9 @@ if __name__ == "__main__":
         print("{}: error: --max-monsters must be set to at least 1".format(__file__))
         parser.print_help()
         sys.exit(1)
+
+    if args.no_pixie:
+        fey_monsters["1/4"] = [monster for monster in fey_monsters["1/4"] if monster[0] != "Pixie"]
     
     monsters_conjured = collect_from_range(args.MAXCR, args.MINCR, args.max_monsters, args.mm_only)
     display_monsters(monsters_conjured)
