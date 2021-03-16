@@ -39,8 +39,8 @@ fey_monsters = {
 cr_mapping = {"1/4": 8, "1/2": 4, "1": 2, "2": 1}
 monster_crs = ("1/8", "1/4", "1/2", "1", "2")
 
-def rand_monster_from_range(max_cr: str, min_cr: str, mm_only: bool) -> tuple:
-    """ Retrieve a random monster in the specified inclusive CR range """ # max_cr: fractions.Fraction, min_cr: fractions.Fraction
+def monsters_from_range(max_cr: str, min_cr: str, mm_only: bool) -> tuple:
+    """ Return a list of all monsters in the specified inclusive CR range """
     possible_monsters = []
     max_cr = Fraction(max_cr)
     min_cr = Fraction(min_cr)
@@ -50,16 +50,17 @@ def rand_monster_from_range(max_cr: str, min_cr: str, mm_only: bool) -> tuple:
             for monster in fey_monsters[cr]:
                 if not mm_only or monster[1] == "Monster Manual":
                     possible_monsters.append(monster)
-
-    return possible_monsters[random.randint(0,len(possible_monsters)-1)]
+    
+    return possible_monsters
 
 def collect_from_range(max_cr: str, min_cr: str, max_monsters: int, mm_only: bool) -> dict:
     """ Collects a number of random monsters from a specified CR range """
     monsters_conjured = {}
     total_monsters = 0
+    possible_monsters = monsters_from_range(Fraction(max_cr), Fraction(min_cr), mm_only)
 
     while total_monsters < cr_mapping[max_cr] and len(monsters_conjured) < max_monsters:
-        next_monster = rand_monster_from_range(Fraction(max_cr), Fraction(min_cr), mm_only)
+        next_monster = random.choice(possible_monsters)
         if next_monster in monsters_conjured:
             monsters_conjured[next_monster] += 1
         else:
@@ -75,9 +76,8 @@ def collect_from_range(max_cr: str, min_cr: str, max_monsters: int, mm_only: boo
 def get_monster_cr(monster: tuple) -> str:
     """ Get the CR of a given monster """
     for cr in fey_monsters:
-        for fey_monster in fey_monsters[cr]:
-            if fey_monster == monster:
-                return cr
+        if monster in fey_monsters[cr]:
+            return cr
     return None
 
 def display_monsters(monsters_conjured: dict) -> None:
